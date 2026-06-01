@@ -1,53 +1,149 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Student Survival Hub</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Survival Planner</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-    <h1>🎓 Student Survival Hub</h1>
+<header class="topbar">
+  <div class="brand">
+    <div class="logo"></div>
+    <div>
+      <h1>Student Survival Planner</h1>
+      <p>Tasks · Exams · Panic, all in one place</p>
+    </div>
+  </div>
+  <button onclick="loadDemoData()" class="demo-btn">Load demo data</button>
+</header>
 
-    <section>
-        <h2>📋 Academic Task Manager</h2>
+<main class="container">
 
-        <input type="text" id="taskTitle" placeholder="Task Title">
+  <section class="panic-card">
+    <div>
+      <p class="label">DEADLINE PANIC METER</p>
+      <h2 id="panicTitle">Relaxed</h2>
+      <p id="panicMessage">You're doing fine. Keep going.</p>
+    </div>
 
-        <select id="taskPriority">
-            <option value="High">High</option>
-            <option value="Medium">Medium</option>
-            <option value="Low">Low</option>
-        </select>
+    <div class="score">
+      <span id="panicScore">0</span>
+      <small>/ 100</small>
+    </div>
 
-        <input type="date" id="taskDueDate">
+    <div class="panic-bar">
+      <div id="panicFill"></div>
+    </div>
 
-        <button onclick="addTask()">Add Task</button>
+    <div class="scale">
+      <span>🟢 RELAXED</span>
+      <span>🟡 WARNING</span>
+      <span>🔴 PANIC</span>
+      <span>⚫ CRITICAL</span>
+    </div>
+  </section>
 
-        <ul id="taskList"></ul>
-    </section>
+  <aside class="stats">
+    <div class="stat-card">
+      <p>PENDING TASKS</p>
+      <h2 id="pendingCount">0</h2>
+      <span id="urgentText">No urgent tasks</span>
+    </div>
 
-    <section>
-        <h2>📚 Exam Survival Planner</h2>
+    <div class="stat-card">
+      <p>DONE THIS TERM</p>
+      <h2 id="doneCount">0</h2>
+      <span>Keep momentum</span>
+    </div>
 
-        <input type="text" id="courseName" placeholder="Course Name">
-        <input type="date" id="examDate">
-        <input type="number" id="studyHours" placeholder="Daily Study Hours">
+    <div class="stat-card">
+      <p>NEXT EXAM</p>
+      <h2 id="nextExamText">-</h2>
+      <span id="nextExamName">No exams yet</span>
+    </div>
+  </aside>
 
-        <button onclick="generatePlan()">Generate Study Plan</button>
+  <section class="panel tasks-panel">
+    <div class="panel-head">
+      <div>
+        <h2>Academic Tasks</h2>
+        <p><span id="taskPendingSmall">0</span> pending · <span id="taskDoneSmall">0</span> done</p>
+      </div>
+    </div>
 
-        <p id="studyPlan"></p>
-    </section>
+    <div class="form">
+      <input id="taskTitle" placeholder="Task title" />
+      <input id="taskCourse" placeholder="Course" />
 
-    <section>
-        <h2>🚨 Panic Meter</h2>
-        <p id="panicLevel">Current Panic Level: 🟢 Relaxed</p>
-    </section>
+      <select id="taskPriority">
+        <option value="High">High priority</option>
+        <option value="Medium">Medium priority</option>
+        <option value="Low">Low priority</option>
+      </select>
 
-    <section>
-        <h2>🤖 Survival Bot</h2>
-        <p id="botMessage">Welcome Student!</p>
-    </section>
+      <input type="date" id="taskDueDate" />
 
-    <script src="script.js"></script>
+      <button id="saveTaskBtn" onclick="saveTask()">+ New</button>
+      <button id="cancelTaskBtn" onclick="cancelTaskEdit()" style="display:none;">Cancel</button>
+    </div>
+
+    <div id="taskList" class="list"></div>
+  </section>
+
+  <section class="side-column">
+    <div class="panel bot-panel">
+      <h2> Survival Bot</h2>
+      <p>Your study coach in your pocket</p>
+      <div id="botMessage" class="bot-msg">Add tasks and exams to get advice.</div>
+    </div>
+
+    <div class="panel whatif-panel">
+      <h2>What-If Simulator</h2>
+      <p>See how your choices shift the panic score.</p>
+
+      <div class="whatif-buttons">
+        <button onclick="whatIfSkipStudy()">Skip study today </button>
+        <button onclick="whatIfFinishTask()">Finish next task </button>
+      </div>
+
+      <div id="whatIfResult" class="whatif-result">Try a simulation.</div>
+    </div>
+  </section>
+
+  <section class="panel exams-panel">
+    <div class="panel-head">
+      <div>
+        <h2>Exam Survival Planner</h2>
+        <p>Auto-generated study sessions until exam day.</p>
+      </div>
+    </div>
+
+    <div class="form">
+      <input id="courseName" placeholder="Course name" />
+      <input type="date" id="examDate" />
+
+      <select id="examDifficulty">
+        <option value="Hard">Hard</option>
+        <option value="Medium">Medium</option>
+        <option value="Easy">Easy</option>
+      </select>
+
+      <input type="number" id="studyHours" placeholder="Hours/day" />
+
+      <button id="saveExamBtn" onclick="saveExam()">+ Exam</button>
+      <button id="cancelExamBtn" onclick="cancelExamEdit()" style="display:none;">Cancel</button>
+    </div>
+
+    <div id="examList" class="exam-grid"></div>
+
+    <h3>STUDY SCHEDULE</h3>
+    <div id="studySchedule" class="schedule"></div>
+  </section>
+
+</main>
+
+<script src="script.js"></script>
 </body>
 </html>
