@@ -34,3 +34,5 @@ User → CloudFront → S3 Frontend → API Gateway → Lambda → DynamoDB
 
 - seham dabor,marwa shhade,osama arfaeh
 - Team Member 3
+
+- http://student-survival-planner.s3-website.eu-north-1.amazonaws.com
