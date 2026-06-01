@@ -18,7 +18,34 @@ function addTask() {
     document.getElementById("taskTitle").value = "";
     document.getElementById("taskDueDate").value = "";
 }
+function updatePanicMeter() {
 
+    const taskCount =
+        document.querySelectorAll("#taskList li").length;
+
+    const panicLevel =
+        document.getElementById("panicLevel");
+
+    if (taskCount <= 2) {
+        panicLevel.innerHTML =
+            "Current Panic Level: 🟢 Relaxed";
+    }
+
+    else if (taskCount <= 4) {
+        panicLevel.innerHTML =
+            "Current Panic Level: 🟡 Warning";
+    }
+
+    else if (taskCount <= 6) {
+        panicLevel.innerHTML =
+            "Current Panic Level: 🔴 Panic";
+    }
+
+    else {
+        panicLevel.innerHTML =
+            "Current Panic Level: ⚫ Critical";
+    }
+}
 function generatePlan() {
     const course = document.getElementById("courseName").value;
     const hours = document.getElementById("studyHours").value;
