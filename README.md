@@ -1,6 +1,6 @@
-# Student Survival Hub
+# Student Survival Planner
 
-Student Survival Hub is a serverless academic planning platform built on AWS.
+Student Survival Planner is a serverless academic planning platform built on AWS.
 
 ## Features
 
@@ -32,5 +32,5 @@ User → CloudFront → S3 Frontend → API Gateway → Lambda → DynamoDB
 
 ## Team Members
 
-- Your Name
-- Team Member 2
+- seham dabor,marwa shhade,osama arfaeh
+- Team Member 3
