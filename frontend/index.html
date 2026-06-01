@@ -4,32 +4,50 @@
     <title>Student Survival Hub</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<h1>🎓 Student Survival Hub</h1>
+    <h1>🎓 Student Survival Hub</h1>
 
-<h2>📋 Academic Task Manager</h2>
+    <section>
+        <h2>📋 Academic Task Manager</h2>
 
-<button>Add Task</button>
+        <input type="text" id="taskTitle" placeholder="Task Title">
 
-<h2>📚 Exam Survival Planner</h2>
+        <select id="taskPriority">
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+        </select>
 
-<button>Generate Study Plan</button>
+        <input type="date" id="taskDueDate">
 
-<h2>🚨 Panic Meter</h2>
+        <button onclick="addTask()">Add Task</button>
 
-<p>Status: Relaxed</p>
+        <ul id="taskList"></ul>
+    </section>
 
-<h2>🎲 What-If Simulator</h2>
+    <section>
+        <h2>📚 Exam Survival Planner</h2>
 
-<button>What If I Skip Studying Today?</button>
+        <input type="text" id="courseName" placeholder="Course Name">
+        <input type="date" id="examDate">
+        <input type="number" id="studyHours" placeholder="Daily Study Hours">
 
-<h2>🤖 Survival Bot</h2>
+        <button onclick="generatePlan()">Generate Study Plan</button>
 
-<p>Welcome Student!</p>
+        <p id="studyPlan"></p>
+    </section>
 
-<script src="script.js"></script>
+    <section>
+        <h2>🚨 Panic Meter</h2>
+        <p id="panicLevel">Current Panic Level: 🟢 Relaxed</p>
+    </section>
 
+    <section>
+        <h2>🤖 Survival Bot</h2>
+        <p id="botMessage">Welcome Student!</p>
+    </section>
+
+    <script src="script.js"></script>
 </body>
 </html>
