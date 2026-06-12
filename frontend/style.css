@@ -209,9 +209,11 @@ select {
 .high {
   color: #ff3b3b;
 }
+
 .medium {
   color: #f2a800;
 }
+
 .low {
   color: #12b76a;
 }
@@ -221,63 +223,6 @@ select {
   color: #24305f;
   padding: 6px;
   font-size: 18px;
-}
-
-.exam-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-}
-
-.exam-card {
-  background: #f4f7fb;
-  border: 1px solid #d8dde8;
-  border-radius: 18px;
-  padding: 18px;
-}
-
-.exam-card h3 {
-  margin: 12px 0;
-}
-
-.badge {
-  border-radius: 12px;
-  padding: 5px 10px;
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.badge.Hard {
-  background: #ff4747;
-}
-.badge.Medium {
-  background: #f4b400;
-}
-.badge.Easy {
-  background: #12b76a;
-}
-
-.schedule-day {
-  border: 1px solid #d8dde8;
-  border-radius: 18px;
-  overflow: hidden;
-  margin: 10px 0;
-}
-
-.schedule-head {
-  background: #f4f7fb;
-  padding: 12px 18px;
-  font-weight: bold;
-  display: flex;
-  justify-content: space-between;
-}
-
-.study-row {
-  padding: 14px 18px;
-  border-top: 1px solid #d8dde8;
-  display: flex;
-  justify-content: space-between;
 }
 
 .done-text {
@@ -292,9 +237,5 @@ select {
 
   .topbar {
     padding: 20px;
-  }
-
-  .exam-grid {
-    grid-template-columns: 1fr;
   }
 }

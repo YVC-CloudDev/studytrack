@@ -1,17 +1,13 @@
 let tasks = [];
-let exams = [];
 
 let editingTaskId = null;
-let editingExamId = null;
 
 function saveData() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
-  localStorage.setItem("exams", JSON.stringify(exams));
 }
 
 function loadData() {
   tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-  exams = JSON.parse(localStorage.getItem("exams")) || [];
   renderAll();
 }
 
@@ -105,76 +101,6 @@ function deleteTask(id) {
   renderAll();
 }
 
-/* EXAMS */
-
-function saveExam() {
-  const course = document.getElementById("courseName").value.trim();
-  const date = document.getElementById("examDate").value;
-  const difficulty = document.getElementById("examDifficulty").value;
-  const hours = Number(document.getElementById("studyHours").value);
-
-  if (!course || !date || !hours) {
-    alert("Please fill course, exam date, and study hours");
-    return;
-  }
-
-  if (editingExamId !== null) {
-    const exam = exams.find((e) => e.id === editingExamId);
-
-    exam.course = course;
-    exam.date = date;
-    exam.difficulty = difficulty;
-    exam.hours = hours;
-
-    editingExamId = null;
-  } else {
-    exams.push({
-      id: Date.now(),
-      course,
-      date,
-      difficulty,
-      hours,
-    });
-  }
-
-  clearExamForm();
-  saveData();
-  renderAll();
-}
-
-function editExam(id) {
-  const exam = exams.find((e) => e.id === id);
-  editingExamId = id;
-
-  document.getElementById("courseName").value = exam.course;
-  document.getElementById("examDate").value = exam.date;
-  document.getElementById("examDifficulty").value = exam.difficulty;
-  document.getElementById("studyHours").value = exam.hours;
-
-  document.getElementById("saveExamBtn").textContent = "Update Exam";
-  document.getElementById("cancelExamBtn").style.display = "inline-block";
-}
-
-function cancelExamEdit() {
-  editingExamId = null;
-  clearExamForm();
-}
-
-function clearExamForm() {
-  document.getElementById("courseName").value = "";
-  document.getElementById("examDate").value = "";
-  document.getElementById("studyHours").value = "";
-
-  document.getElementById("saveExamBtn").textContent = "+ Exam";
-  document.getElementById("cancelExamBtn").style.display = "none";
-}
-
-function deleteExam(id) {
-  exams = exams.filter((exam) => exam.id !== id);
-  saveData();
-  renderAll();
-}
-
 /* RENDER TASKS */
 
 function renderTasks() {
@@ -227,90 +153,6 @@ function renderTasks() {
   });
 }
 
-/* RENDER EXAMS */
-
-function renderExams() {
-  const list = document.getElementById("examList");
-  list.innerHTML = "";
-
-  const sorted = [...exams].sort((a, b) => new Date(a.date) - new Date(b.date));
-
-  sorted.forEach((exam) => {
-    const days = daysUntil(exam.date);
-
-    const div = document.createElement("div");
-    div.className = "exam-card";
-
-    div.innerHTML = `
-      <small>${new Date(exam.date).toDateString()}</small>
-      <h3>${exam.course}</h3>
-
-      <span class="badge ${exam.difficulty}">${exam.difficulty.toUpperCase()}</span>
-      <span>${exam.hours}h/day</span>
-
-      <b style="float:right">${days}d left</b>
-
-      <div class="actions">
-        <button onclick="editExam(${exam.id})">✎</button>
-        <button onclick="deleteExam(${exam.id})">🗑</button>
-      </div>
-    `;
-
-    list.appendChild(div);
-  });
-}
-
-/* STUDY SCHEDULE */
-
-function renderStudySchedule() {
-  const schedule = document.getElementById("studySchedule");
-  schedule.innerHTML = "";
-
-  if (exams.length === 0) {
-    schedule.innerHTML =
-      "<p>No exams yet. Add an exam to generate a study schedule.</p>";
-    return;
-  }
-
-  const topics = [
-    "Core concepts & overview",
-    "Practice problems",
-    "Past papers review",
-  ];
-
-  for (let day = 0; day < 3; day++) {
-    const date = new Date();
-    date.setDate(date.getDate() + day);
-
-    let total = 0;
-    let rows = "";
-
-    exams.forEach((exam) => {
-      total += exam.hours;
-
-      rows += `
-        <div class="study-row">
-          <span><b>${exam.course}</b> · ${topics[day % topics.length]}</span>
-          <b>${exam.hours}h</b>
-        </div>
-      `;
-    });
-
-    const box = document.createElement("div");
-    box.className = "schedule-day";
-
-    box.innerHTML = `
-      <div class="schedule-head">
-        <span>${date.toDateString()}</span>
-        <span>${total}h total</span>
-      </div>
-      ${rows}
-    `;
-
-    schedule.appendChild(box);
-  }
-}
-
 /* PANIC */
 
 function calculatePanicScore() {
@@ -328,17 +170,6 @@ function calculatePanicScore() {
     if (days < 0) score += 25;
     else if (days <= 1) score += 18;
     else if (days <= 3) score += 10;
-  });
-
-  exams.forEach((exam) => {
-    const days = daysUntil(exam.date);
-
-    if (exam.difficulty === "Hard") score += 18;
-    if (exam.difficulty === "Medium") score += 12;
-    if (exam.difficulty === "Easy") score += 7;
-
-    if (days <= 2) score += 20;
-    else if (days <= 7) score += 12;
   });
 
   return Math.min(score, 100);
@@ -378,13 +209,10 @@ function renderSmallCounts() {
   document.getElementById("taskDoneSmall").textContent = done;
 }
 
-
 /* INIT */
 
 function renderAll() {
   renderTasks();
-  renderExams();
-  renderStudySchedule();
   renderPanic();
   renderSmallCounts();
 }
