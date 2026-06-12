@@ -30,10 +30,6 @@ body {
   height: 46px;
   border-radius: 50%;
   background: #24305f;
-  color: white;
-  display: grid;
-  place-items: center;
-  font-size: 23px;
 }
 
 .brand h1 {
@@ -64,10 +60,9 @@ button {
 }
 
 .container {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 26px;
-  padding: 36px 70px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 36px 20px;
 }
 
 .panic-card {
@@ -77,7 +72,8 @@ button {
   padding: 30px;
   min-height: 220px;
   position: relative;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+  margin-bottom: 24px;
 }
 
 .label {
@@ -110,7 +106,7 @@ button {
 
 .panic-bar {
   height: 14px;
-  background: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 10px;
   margin-top: 30px;
   overflow: hidden;
@@ -131,56 +127,13 @@ button {
   opacity: 0.75;
 }
 
-.stats {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.stat-card,
 .panel {
   background: white;
   border: 1px solid #d8dde8;
   border-radius: 22px;
-  box-shadow: 0 8px 22px rgba(0,0,0,0.06);
-}
-
-.stat-card {
-  padding: 22px;
-}
-
-.stat-card p {
-  color: #3f4d66;
-  letter-spacing: 1px;
-  margin: 0;
-  font-size: 13px;
-}
-
-.stat-card h2 {
-  font-size: 36px;
-  margin: 8px 0;
-}
-
-.stat-card span {
-  color: #3f4d66;
-}
-
-.panel {
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
   padding: 28px;
-}
-
-.tasks-panel {
-  grid-column: 1;
-}
-
-.side-column {
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-}
-
-.exams-panel {
-  grid-column: 1;
+  margin-bottom: 24px;
 }
 
 .panel-head {
@@ -253,37 +206,21 @@ select {
   margin-top: 6px;
 }
 
-.high { color: #ff3b3b; }
-.medium { color: #f2a800; }
-.low { color: #12b76a; }
+.high {
+  color: #ff3b3b;
+}
+.medium {
+  color: #f2a800;
+}
+.low {
+  color: #12b76a;
+}
 
 .actions button {
   background: transparent;
   color: #24305f;
   padding: 6px;
   font-size: 18px;
-}
-
-.bot-msg,
-.whatif-result {
-  background: #eaf0fb;
-  padding: 18px;
-  border-radius: 18px;
-  line-height: 1.6;
-}
-
-.whatif-buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin: 20px 0;
-}
-
-.whatif-buttons button {
-  background: #f3f6fb;
-  color: #08111f;
-  border: 1px solid #d8dde8;
-  border-radius: 16px;
 }
 
 .exam-grid {
@@ -311,9 +248,15 @@ select {
   font-weight: bold;
 }
 
-.badge.Hard { background: #ff4747; }
-.badge.Medium { background: #f4b400; }
-.badge.Easy { background: #12b76a; }
+.badge.Hard {
+  background: #ff4747;
+}
+.badge.Medium {
+  background: #f4b400;
+}
+.badge.Easy {
+  background: #12b76a;
+}
 
 .schedule-day {
   border: 1px solid #d8dde8;
@@ -344,18 +287,11 @@ select {
 
 @media (max-width: 900px) {
   .container {
-    grid-template-columns: 1fr;
     padding: 20px;
   }
 
   .topbar {
     padding: 20px;
-  }
-
-  .panic-card,
-  .tasks-panel,
-  .exams-panel {
-    grid-column: 1;
   }
 
   .exam-grid {
