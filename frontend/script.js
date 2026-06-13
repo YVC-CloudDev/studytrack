@@ -1,14 +1,17 @@
-let tasks = [];
+const API_URL = "https://u24x4b9vd9.execute-api.eu-north-1.amazonaws.com";
 
+let tasks = [];
 let editingTaskId = null;
 
-function saveData() {
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-}
-
-function loadData() {
-  tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-  renderAll();
+async function loadData() {
+  try {
+    const response = await fetch(`${API_URL}/tasks`);
+    tasks = await response.json();
+    renderAll();
+  } catch (error) {
+    console.error("Error loading tasks:", error);
+    alert("Failed to load tasks from AWS");
+  }
 }
 
 function daysUntil(dateString) {
@@ -23,7 +26,7 @@ function daysUntil(dateString) {
 
 /* TASKS */
 
-function saveTask() {
+async function saveTask() {
   const title = document.getElementById("taskTitle").value.trim();
   const course = document.getElementById("taskCourse").value.trim();
   const priority = document.getElementById("taskPriority").value;
@@ -34,29 +37,48 @@ function saveTask() {
     return;
   }
 
-  if (editingTaskId !== null) {
-    const task = tasks.find((t) => t.id === editingTaskId);
+  try {
+    if (editingTaskId !== null) {
+      const oldTask = tasks.find((t) => t.id === editingTaskId);
 
-    task.title = title;
-    task.course = course;
-    task.priority = priority;
-    task.dueDate = dueDate;
+      const updatedTask = {
+        ...oldTask,
+        title,
+        course,
+        priority,
+        dueDate,
+      };
 
-    editingTaskId = null;
-  } else {
-    tasks.push({
-      id: Date.now(),
-      title,
-      course,
-      priority,
-      dueDate,
-      done: false,
-    });
+      await fetch(`${API_URL}/tasks`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedTask),
+      });
+
+      editingTaskId = null;
+    } else {
+      await fetch(`${API_URL}/tasks`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          course,
+          priority,
+          dueDate,
+        }),
+      });
+    }
+
+    clearTaskForm();
+    await loadData();
+  } catch (error) {
+    console.error("Error saving task:", error);
+    alert("Failed to save task");
   }
-
-  clearTaskForm();
-  saveData();
-  renderAll();
 }
 
 function editTask(id) {
@@ -86,19 +108,41 @@ function clearTaskForm() {
   document.getElementById("cancelTaskBtn").style.display = "none";
 }
 
-function toggleTask(id) {
-  tasks = tasks.map((task) =>
-    task.id === id ? { ...task, done: !task.done } : task,
-  );
+async function toggleTask(id) {
+  const task = tasks.find((t) => t.id === id);
 
-  saveData();
-  renderAll();
+  const updatedTask = {
+    ...task,
+    done: !task.done,
+  };
+
+  try {
+    await fetch(`${API_URL}/tasks`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedTask),
+    });
+
+    await loadData();
+  } catch (error) {
+    console.error("Error updating task:", error);
+    alert("Failed to update task");
+  }
 }
 
-function deleteTask(id) {
-  tasks = tasks.filter((task) => task.id !== id);
-  saveData();
-  renderAll();
+async function deleteTask(id) {
+  try {
+    await fetch(`${API_URL}/tasks/${id}`, {
+      method: "DELETE",
+    });
+
+    await loadData();
+  } catch (error) {
+    console.error("Error deleting task:", error);
+    alert("Failed to delete task");
+  }
 }
 
 /* RENDER TASKS */
@@ -128,7 +172,7 @@ function renderTasks() {
     div.className = "item";
 
     div.innerHTML = `
-      <div onclick="toggleTask(${task.id})" class="check ${task.done ? "done" : ""}"></div>
+      <div onclick="toggleTask('${task.id}')" class="check ${task.done ? "done" : ""}"></div>
 
       <div>
         <div class="item-title ${task.done ? "done-text" : ""}">
@@ -144,8 +188,8 @@ function renderTasks() {
       </div>
 
       <div class="actions">
-        <button onclick="editTask(${task.id})">✎</button>
-        <button onclick="deleteTask(${task.id})">🗑</button>
+        <button onclick="editTask('${task.id}')">✎</button>
+        <button onclick="deleteTask('${task.id}')">🗑</button>
       </div>
     `;
 

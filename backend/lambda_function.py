@@ -2,22 +2,34 @@ import json
 import boto3
 import uuid
 
-dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('StudyTrackTasks')
+dynamodb = boto3.resource("dynamodb")
+table = dynamodb.Table("StudyTrackTasks")
+
+headers = {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type"
+}
+
+def make_response(status_code, body):
+    return {
+        "statusCode": status_code,
+        "headers": headers,
+        "body": json.dumps(body)
+    }
 
 def lambda_handler(event, context):
-
     method = event.get("requestContext", {}).get("http", {}).get("method")
+
+    if method == "OPTIONS":
+        return make_response(200, {"message": "OK"})
 
     if method == "GET":
         response = table.scan()
+        return make_response(200, response.get("Items", []))
 
-        return {
-            "statusCode": 200,
-            "body": json.dumps(response.get("Items", []))
-        }
-
-    elif method == "POST":
+    if method == "POST":
         body = json.loads(event["body"])
 
         task = {
@@ -30,37 +42,16 @@ def lambda_handler(event, context):
         }
 
         table.put_item(Item=task)
+        return make_response(200, task)
 
-        return {
-            "statusCode": 200,
-            "body": json.dumps(task)
-        }
-
-    elif method == "PUT":
+    if method == "PUT":
         body = json.loads(event["body"])
-
         table.put_item(Item=body)
+        return make_response(200, {"message": "Task updated"})
 
-        return {
-            "statusCode": 200,
-            "body": json.dumps({"message": "Task updated"})
-        }
-
-    elif method == "DELETE":
+    if method == "DELETE":
         task_id = event["pathParameters"]["id"]
+        table.delete_item(Key={"id": task_id})
+        return make_response(200, {"message": "Task deleted"})
 
-        table.delete_item(
-            Key={
-                "id": task_id
-            }
-        )
-
-        return {
-            "statusCode": 200,
-            "body": json.dumps({"message": "Task deleted"})
-        }
-
-    return {
-        "statusCode": 400,
-        "body": json.dumps({"message": "Unsupported method"})
-    }
+    return make_response(400, {"message": "Unsupported method"})
