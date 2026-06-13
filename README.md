@@ -8,7 +8,7 @@ StudyTrack is a cloud-based study management system that helps students organize
 
 * Website URL: https://studytrack.proj.rotem.click
 * API URL: https://u24x4b9vd9.execute-api.eu-north-1.amazonaws.com/tasks
-* GitHub Repository: [Add GitHub repository link here]
+* GitHub Repository: https://github.com/YVC-CloudDev/studytrack.git
 
 ## Features
 
