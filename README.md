@@ -1,38 +1,64 @@
-# Student Survival Planner
+# StudyTrack
 
-Student Survival Planner is a serverless academic planning platform built on AWS.
+## Project Description
+
+StudyTrack is a cloud-based study management system that helps students organize tasks, track deadlines, and manage their academic progress efficiently.
 
 ## Features
 
-- Academic Task Manager
-- Exam Survival Planner
-- Deadline Panic Meter
-- What-If Simulator
-- Survival Bot
-- LocalStorage support
+* Add, edit, and delete study tasks.
+* Track assignment and exam deadlines.
+* Organize tasks by course and priority.
+* Responsive web interface.
+* Cloud-based deployment on AWS.
 
-## Project Track
+## System Architecture
 
-Serverless Application
+Frontend (HTML/CSS/JavaScript) is hosted on Amazon S3 and delivered through Amazon CloudFront.
 
-## AWS Services
+Backend API is implemented using AWS Lambda and exposed through Amazon API Gateway.
 
-- Amazon S3
-- Amazon CloudFront
-- Amazon API Gateway
-- AWS Lambda
-- Amazon DynamoDB
-- Amazon CloudWatch
-- AWS Certificate Manager
-- Amazon Route 53
+Monitoring and logging are performed using Amazon CloudWatch.
 
-## Architecture
+Domain management is handled through Amazon Route 53, and HTTPS is secured using AWS Certificate Manager (ACM).
 
-User → CloudFront → S3 Frontend → API Gateway → Lambda → DynamoDB
+## AWS Services Used
+
+* Amazon S3 – Frontend hosting
+* Amazon CloudFront – Content delivery and HTTPS
+* AWS Lambda – Backend logic
+* Amazon API Gateway – REST API
+* Amazon Route 53 – DNS management
+* AWS Certificate Manager (ACM) – SSL certificate
+* Amazon CloudWatch – Monitoring and logs
+* IAM – Access management and security
+
+## CI/CD
+
+GitHub is used for source control and version management.
+
+GitHub Actions is used to automate deployment and update processes.
+
+## Repository Structure
+
+* Frontend source files
+* Backend Lambda functions
+* GitHub Actions workflows
+* Documentation
+
+## Application URL
+
+https://studytrack.proj.rotem.click
 
 ## Team Members
+seham dabor - 212896252
+marwa shhade 325555951
+osama arfaeh 326836277
 
-- seham dabor,marwa shhade,osama arfaeh
-- Team Member 3
+## Monitoring
 
-- http://student-survival-planner.s3-website.eu-north-1.amazonaws.com
+CloudWatch Dashboard, Metrics, and Logs are used to monitor application performance and Lambda executions.
+
+## Security
+
+IAM Roles are used to securely grant permissions between AWS services without exposing access keys.
