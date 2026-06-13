@@ -12,7 +12,7 @@
         <div class="logo"></div>
         <div>
           <h1>StudyTrack</h1>
-          <p>Tasks · Exams · Panic, all in one place</p>
+          <p>Tasks · Panic, all in one place</p>
         </div>
       </div>
     </header>
@@ -66,6 +66,7 @@
           <input type="date" id="taskDueDate" />
 
           <button id="saveTaskBtn" onclick="saveTask()">+ New</button>
+
           <button
             id="cancelTaskBtn"
             onclick="cancelTaskEdit()"
@@ -76,42 +77,6 @@
         </div>
 
         <div id="taskList" class="list"></div>
-      </section>
-
-      <section class="panel exams-panel">
-        <div class="panel-head">
-          <div>
-            <h2>Exam StudyTrack</h2>
-            <p>Auto-generated study sessions until exam day.</p>
-          </div>
-        </div>
-
-        <div class="form">
-          <input id="courseName" placeholder="Course name" />
-          <input type="date" id="examDate" />
-
-          <select id="examDifficulty">
-            <option value="Hard">Hard</option>
-            <option value="Medium">Medium</option>
-            <option value="Easy">Easy</option>
-          </select>
-
-          <input type="number" id="studyHours" placeholder="Hours/day" />
-
-          <button id="saveExamBtn" onclick="saveExam()">+ Exam</button>
-          <button
-            id="cancelExamBtn"
-            onclick="cancelExamEdit()"
-            style="display: none"
-          >
-            Cancel
-          </button>
-        </div>
-
-        <div id="examList" class="exam-grid"></div>
-
-        <h3>STUDY SCHEDULE</h3>
-        <div id="studySchedule" class="schedule"></div>
       </section>
     </main>
 
