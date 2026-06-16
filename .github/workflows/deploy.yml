@@ -20,12 +20,20 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Upload to S3
+      - name: Upload frontend to S3
         run: |
-          aws s3 sync frontend/ s3://student-survival-planner --delete
+          aws s3 sync frontend/ s3://studytrack-frontend --delete
 
-      - name: Invalidate CloudFront
+      - name: Deploy Lambda code
+        run: |
+          cd backend
+          zip -r lambda.zip lambda_function.py
+          aws lambda update-function-code \
+            --function-name StudyTrackAPI \
+            --zip-file fileb://lambda.zip
+
+      - name: Invalidate CloudFront cache
         run: |
           aws cloudfront create-invalidation \
-          --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
-          --paths "/*"
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths "/*"
